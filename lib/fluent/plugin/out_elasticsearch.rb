@@ -50,16 +50,7 @@ class Fluent::ElasticsearchOutput < Fluent::BufferedOutput
   end
 
   def get_hosts
-    if @hosts
-        @hosts.split(',').map {|x| hp = x.split(':'); { host: hp[0], port: hp[1] || @port } }.compact
-    else
-      if @user
-        raise "`password` must be present if `user` is present" unless @password
-        [{host: @host, port: @port, user: @user, password: @password }]
-      else
-        [{host: @host, port: @port }]
-      end
-     end
+    [{host: @host, port: @port, user: @user, password: @password, scheme: 'http' }]
   end
 
   def format(tag, time, record)
